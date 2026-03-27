@@ -15,7 +15,6 @@ public class Result<T> {
         r.setData(data);
         return r;
     }
-
     public static <T> Result<T> error(ResultCode resultCode) {
         Result<T> r = new Result<>();
         r.setCode(resultCode.getCode());

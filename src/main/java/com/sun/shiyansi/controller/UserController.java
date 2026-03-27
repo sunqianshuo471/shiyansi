@@ -24,7 +24,6 @@ public class UserController {
     public Result<String> login(@RequestBody UserDTO userDTO) {
         return userService.login(userDTO);
     }
-
     // 测试用查询
     @GetMapping("/{id}")
     public Result<String> getUser(@PathVariable Long id) {

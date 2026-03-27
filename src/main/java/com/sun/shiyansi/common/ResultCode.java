@@ -15,6 +15,7 @@ public enum ResultCode {
         this.msg = msg;
     }
 
+
     public Integer getCode() {
         return code;
     }
