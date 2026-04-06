@@ -6,27 +6,28 @@ import com.sun.shiyansi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/api/users") // [cite: 99]
+@RestController // [cite: 98, 236]
+@RequestMapping("/api/users") // [cite: 99, 237]
 public class UserController {
-    @Autowired
-    private UserService userService; // [cite: 102]
 
-    // 1. 注册接口 - POST /api/users [cite: 103, 104]
+    @Autowired
+    private UserService userService; // [cite: 101, 240]
+
+    // 1. 用户注册 [cite: 103, 241]
     @PostMapping
     public Result<String> register(@RequestBody UserDTO userDTO) {
-        return userService.register(userDTO); // [cite: 106]
+        return userService.register(userDTO); // [cite: 106, 245]
     }
 
-    // 2. 登录接口 - POST /api/users/login [cite: 108, 109]
+    // 2. 用户登录 [cite: 108, 246]
     @PostMapping("/login")
     public Result<String> login(@RequestBody UserDTO userDTO) {
-        return userService.login(userDTO); // [cite: 111]
+        return userService.login(userDTO); // [cite: 111, 249]
     }
 
-    // 3. 获取用户信息 - 用于测试拦截器放行 [cite: 113, 114]
+    // 3. 根据 ID 查询用户 [cite: 251]
     @GetMapping("/{id}")
     public Result<String> getUser(@PathVariable("id") Long id) {
-        return Result.success("查询成功,正在返回 ID为" + id + "的用户信息"); // [cite: 116]
+        return userService.getUserById(id); // [cite: 254]
     }
 }
