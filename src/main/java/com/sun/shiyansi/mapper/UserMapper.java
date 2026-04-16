@@ -4,7 +4,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.sun.shiyansi.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
-@Mapper // 标识为 MyBatis Mapper [cite: 174]
+/**
+ * 用户Mapper接口
+ */
+@Mapper
 public interface UserMapper extends BaseMapper<User> {
-    // 继承 BaseMapper 后无需手写基础 SQL [cite: 170, 176]
+    // 无需手动写分页方法，BaseMapper已经内置了selectPage
 }

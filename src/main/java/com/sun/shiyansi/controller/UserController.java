@@ -1,33 +1,35 @@
 package com.sun.shiyansi.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sun.shiyansi.common.Result;
-import com.sun.shiyansi.dto.UserDTO;
+import com.sun.shiyansi.entity.User;
 import com.sun.shiyansi.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import jakarta.annotation.Resource; // 必须用jakarta包，不是javax
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-@RestController // [cite: 98, 236]
-@RequestMapping("/api/users") // [cite: 99, 237]
+/**
+ * 用户控制器
+ */
+@RestController
+@RequestMapping("/api/user")
 public class UserController {
 
-    @Autowired
-    private UserService userService; // [cite: 101, 240]
+    @Resource // 注解生效，自动注入userService，消除警告
+    private UserService userService;
 
-    // 1. 用户注册 [cite: 103, 241]
-    @PostMapping
-    public Result<String> register(@RequestBody UserDTO userDTO) {
-        return userService.register(userDTO); // [cite: 106, 245]
-    }
-
-    // 2. 用户登录 [cite: 108, 246]
-    @PostMapping("/login")
-    public Result<String> login(@RequestBody UserDTO userDTO) {
-        return userService.login(userDTO); // [cite: 111, 249]
-    }
-
-    // 3. 根据 ID 查询用户 [cite: 251]
-    @GetMapping("/{id}")
-    public Result<String> getUser(@PathVariable("id") Long id) {
-        return userService.getUserById(id); // [cite: 254]
+    /**
+     * 分页查询用户接口
+     * @param pageNum  当前页码（默认第1页）
+     * @param pageSize 每页条数（默认10条）
+     * @return 分页结果
+     */
+    @GetMapping("/page")
+    public Result<Page<User>> getUserPage(
+            @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+        return userService.getUserPage(pageNum, pageSize);
     }
 }

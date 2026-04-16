@@ -1,10 +1,20 @@
 package com.sun.shiyansi.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.sun.shiyansi.common.Result;
-import com.sun.shiyansi.dto.UserDTO;
+import com.sun.shiyansi.entity.User;
 
-public interface UserService {
-    Result<String> register(UserDTO userDTO); // 用户注册 [cite: 198]
-    Result<String> login(UserDTO userDTO);    // 用户登录 [cite: 199]
-    Result<String> getUserById(Long id);      // 根据 ID 查询用户 [cite: 200]
+/**
+ * 用户Service接口
+ */
+public interface UserService extends IService<User> {
+
+    /**
+     * 分页查询用户列表
+     * @param pageNum  当前页码
+     * @param pageSize 每页条数
+     * @return 分页结果
+     */
+    Result<Page<User>> getUserPage(Integer pageNum, Integer pageSize);
 }
