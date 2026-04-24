@@ -3,12 +3,11 @@ package com.sun.shiyansi.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sun.shiyansi.common.Result;
 import com.sun.shiyansi.entity.User;
+import com.sun.shiyansi.entity.UserInfo;
 import com.sun.shiyansi.service.UserService;
+import com.sun.shiyansi.vo.UserDetailVO;
 import jakarta.annotation.Resource; // 必须用jakarta包，不是javax
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 用户控制器
@@ -31,5 +30,37 @@ public class UserController {
             @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
             @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         return userService.getUserPage(pageNum, pageSize);
+    }
+
+    /**
+     * 查询用户详情（多表联查 + Redis）
+     * @param userId 用户ID
+     * @return 用户详情
+     */
+    @GetMapping("/{id}/detail")
+    public Result<UserDetailVO> getUserDetail(@PathVariable("id") Long userId) {
+        return userService.getUserDetail(userId);
+    }
+
+    /**
+     * 更新用户扩展信息
+     * @param userId 用户ID
+     * @param userInfo 用户扩展信息
+     * @return 操作结果
+     */
+    @PutMapping("/{id}/detail")
+    public Result<String> updateUserInfo(@PathVariable("id") Long userId, @RequestBody UserInfo userInfo) {
+        userInfo.setUserId(userId);
+        return userService.updateUserInfo(userInfo);
+    }
+
+    /**
+     * 删除用户
+     * @param userId 用户ID
+     * @return 操作结果
+     */
+    @DeleteMapping("/{id}")
+    public Result<String> deleteUser(@PathVariable("id") Long userId) {
+        return userService.deleteUser(userId);
     }
 }

@@ -6,7 +6,8 @@ public enum ResultCode {
     // 追加以下状态码 [cite: 34, 35, 36]
     USER_HAS_EXISTED(4001, "该用户名已被注册"),
     USER_NOT_EXIST(4002, "该用户不存在"),
-    PASSWORD_ERROR(4003, "账号或密码错误");
+    PASSWORD_ERROR(4003, "账号或密码错误"),
+    PARAM_ERROR(4004, "参数错误");
 
     private Integer code;
     private String message;

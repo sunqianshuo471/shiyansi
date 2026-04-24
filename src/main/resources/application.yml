@@ -4,6 +4,14 @@ spring:
     url: jdbc:postgresql://localhost:5432/lab_db # 端口 5432，数据库名 lab_db
     username: postgres # 默认用户名
     password: 123456 # 替换为您在安装时设置的真实密码
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      database: 0
+      lettuce:
+        pool:
+          enabled: false
 
 mybatis-plus:
   configuration:
