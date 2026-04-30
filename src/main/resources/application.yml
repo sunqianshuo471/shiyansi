@@ -16,3 +16,9 @@ spring:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 建议添加，用于控制台查看 SQL
+
+security:
+  jwt:
+    secret:
+      secret: demo-jwt-secret-key-for-spring-security-2026
+    expiration-millis: 7200000

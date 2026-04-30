@@ -13,6 +13,7 @@ import com.sun.shiyansi.mapper.UserMapper;
 import com.sun.shiyansi.service.UserService;
 import com.sun.shiyansi.vo.UserDetailVO;
 import jakarta.annotation.Resource;
+import com.sun.shiyansi.security.JwtUtil;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Resource
     private UserInfoMapper userInfoMapper;
+
+    @Resource
+    private JwtUtil jwtUtil;
 
     @Override
     public Result<Page<User>> getUserPage(Integer pageNum, Integer pageSize) {
@@ -146,7 +150,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             return Result.fail(4003, "密码错误");
         }
 
-        return Result.success("登录成功");
+        String jwt = jwtUtil.generateToken(user.getUsername());
+        return Result.success(jwt);
     }
 
     @Override
