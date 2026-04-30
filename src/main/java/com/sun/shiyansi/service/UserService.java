@@ -40,4 +40,19 @@ public interface UserService extends IService<User> {
      * @return 操作结果
      */
     Result<String> deleteUser(Long userId);
+
+    /**
+     * 用户登录
+     * @param username 用户名
+     * @param password 密码
+     * @return 操作结果
+     */
+    Result<String> login(String username, String password);
+
+    /**
+     * 用户注册
+     * @param user 用户信息
+     * @return 操作结果
+     */
+    Result<String> register(User user);
 }

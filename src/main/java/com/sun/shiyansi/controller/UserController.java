@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
  * 用户控制器
  */
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 public class UserController {
 
     @Resource // 注解生效，自动注入userService，消除警告
@@ -62,5 +62,25 @@ public class UserController {
     @DeleteMapping("/{id}")
     public Result<String> deleteUser(@PathVariable("id") Long userId) {
         return userService.deleteUser(userId);
+    }
+
+    /**
+     * 用户登录
+     * @param user 用户信息（包含username和password）
+     * @return 操作结果
+     */
+    @PostMapping("/login")
+    public Result<String> login(@RequestBody User user) {
+        return userService.login(user.getUsername(), user.getPassword());
+    }
+
+    /**
+     * 用户注册
+     * @param user 用户信息
+     * @return 操作结果
+     */
+    @PostMapping
+    public Result<String> register(@RequestBody User user) {
+        return userService.register(user);
     }
 }

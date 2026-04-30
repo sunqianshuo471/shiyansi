@@ -7,6 +7,7 @@ import com.sun.shiyansi.common.Result;
 import com.sun.shiyansi.common.ResultCode;
 import com.sun.shiyansi.entity.User;
 import com.sun.shiyansi.entity.UserInfo;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.sun.shiyansi.mapper.UserInfoMapper;
 import com.sun.shiyansi.mapper.UserMapper;
 import com.sun.shiyansi.service.UserService;
@@ -125,5 +126,43 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
 
         return Result.success("删除成功");
+    }
+
+    @Override
+    public Result<String> login(String username, String password) {
+        if (username == null || username.isBlank() || password == null || password.isBlank()) {
+            return Result.fail(ResultCode.PARAM_ERROR.getCode(), ResultCode.PARAM_ERROR.getMessage());
+        }
+
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getUsername, username);
+        User user = this.getOne(queryWrapper);
+
+        if (user == null) {
+            return Result.fail(ResultCode.USER_NOT_EXIST.getCode(), ResultCode.USER_NOT_EXIST.getMessage());
+        }
+
+        if (!password.equals(user.getPassword())) {
+            return Result.fail(4003, "密码错误");
+        }
+
+        return Result.success("登录成功");
+    }
+
+    @Override
+    @Transactional
+    public Result<String> register(User user) {
+        if (user == null || user.getUsername() == null || user.getUsername().isBlank()) {
+            return Result.fail(ResultCode.PARAM_ERROR.getCode(), ResultCode.PARAM_ERROR.getMessage());
+        }
+
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getUsername, user.getUsername());
+        if (this.count(queryWrapper) > 0) {
+            return Result.fail(4004, "用户名已存在");
+        }
+
+        this.save(user);
+        return Result.success("注册成功");
     }
 }
