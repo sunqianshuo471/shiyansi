@@ -1,5 +1,8 @@
 package com.sun.shiyansi.service;
 
+import com.sun.shiyansi.dto.ChatRequestDTO;
+import com.sun.shiyansi.vo.ChatResponseVO;
+
 public interface ChatService {
-    String chat(String message);
+    ChatResponseVO chat(ChatRequestDTO requestDTO);
 }
